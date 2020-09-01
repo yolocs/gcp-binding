@@ -19,14 +19,14 @@ limitations under the License.
 package fake
 
 import (
+	clientset "github.com/yolocs/gcp-binding/pkg/client/clientset/versioned"
+	backingv1alpha1 "github.com/yolocs/gcp-binding/pkg/client/clientset/versioned/typed/backing/v1alpha1"
+	fakebackingv1alpha1 "github.com/yolocs/gcp-binding/pkg/client/clientset/versioned/typed/backing/v1alpha1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"
 	fakediscovery "k8s.io/client-go/discovery/fake"
 	"k8s.io/client-go/testing"
-	clientset "knative.dev/sample-controller/pkg/client/clientset/versioned"
-	samplesv1alpha1 "knative.dev/sample-controller/pkg/client/clientset/versioned/typed/samples/v1alpha1"
-	fakesamplesv1alpha1 "knative.dev/sample-controller/pkg/client/clientset/versioned/typed/samples/v1alpha1/fake"
 )
 
 // NewSimpleClientset returns a clientset that will respond with the provided objects.
@@ -76,7 +76,7 @@ func (c *Clientset) Tracker() testing.ObjectTracker {
 
 var _ clientset.Interface = &Clientset{}
 
-// SamplesV1alpha1 retrieves the SamplesV1alpha1Client
-func (c *Clientset) SamplesV1alpha1() samplesv1alpha1.SamplesV1alpha1Interface {
-	return &fakesamplesv1alpha1.FakeSamplesV1alpha1{Fake: &c.Fake}
+// BackingV1alpha1 retrieves the BackingV1alpha1Client
+func (c *Clientset) BackingV1alpha1() backingv1alpha1.BackingV1alpha1Interface {
+	return &fakebackingv1alpha1.FakeBackingV1alpha1{Fake: &c.Fake}
 }

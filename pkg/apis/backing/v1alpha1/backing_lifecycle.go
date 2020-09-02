@@ -2,6 +2,8 @@ package v1alpha1
 
 import (
 	"knative.dev/pkg/apis"
+	"knative.dev/pkg/apis/duck"
+	"knative.dev/pkg/tracker"
 )
 
 const (
@@ -47,4 +49,13 @@ func (bs *BindingStatus) MarkBindingAvailable() {
 
 func (bs *BindingStatus) MarkBindingUnavailable(reason, message string) {
 	bindingCondSet.Manage(bs).MarkFalse(BindingConditionReady, reason, message)
+}
+
+func (b *Binding) GetBindingStatus() duck.BindableStatus {
+	return &b.Status
+}
+
+// GetSubject implements psbinding.Bindable
+func (b *Binding) GetSubject() tracker.Reference {
+	return b.Spec.Subject
 }

@@ -3,13 +3,18 @@ package v1alpha1
 import (
 	"context"
 
+	"go.uber.org/zap"
 	corev1 "k8s.io/api/core/v1"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
+	"knative.dev/pkg/logging"
 )
 
 func (b *Binding) Do(ctx context.Context, ps *duckv1.WithPod) {
 	// TODO
 	b.Undo(ctx, ps)
+
+	backings := GetBackings(ctx)
+	logging.FromContext(ctx).Desugar().Info("Backings CSHOU DEBUG", zap.Any("Backings", backings))
 
 	spec := ps.Spec.Template.Spec
 	for i := range spec.Containers {

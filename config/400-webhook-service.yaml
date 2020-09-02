@@ -17,9 +17,9 @@ kind: Service
 metadata:
   labels:
     role: webhook
-    samples.knative.dev/release: devel
+    backing.google.com/release: devel
   name: webhook
-  namespace: knative-samples
+  namespace: gcp-backing
 spec:
   ports:
     - port: 443

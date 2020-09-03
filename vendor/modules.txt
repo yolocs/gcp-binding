@@ -77,8 +77,6 @@ github.com/emicklei/go-restful
 github.com/emicklei/go-restful/log
 # github.com/evanphx/json-patch v4.5.0+incompatible
 github.com/evanphx/json-patch
-# github.com/ghodss/yaml v1.0.0
-github.com/ghodss/yaml
 # github.com/go-logr/logr v0.1.0
 github.com/go-logr/logr
 # github.com/go-openapi/jsonpointer v0.19.3
@@ -586,6 +584,8 @@ k8s.io/apimachinery/third_party/forked/golang/reflect
 k8s.io/client-go/discovery
 k8s.io/client-go/discovery/fake
 k8s.io/client-go/dynamic
+k8s.io/client-go/dynamic/dynamicinformer
+k8s.io/client-go/dynamic/dynamiclister
 k8s.io/client-go/informers
 k8s.io/client-go/informers/admissionregistration
 k8s.io/client-go/informers/admissionregistration/v1
@@ -816,7 +816,6 @@ k8s.io/utils/pointer
 k8s.io/utils/trace
 # knative.dev/eventing v0.17.3
 ## explicit
-knative.dev/eventing/pkg/apis/config
 knative.dev/eventing/pkg/logconfig
 # knative.dev/pkg v0.0.0-20200901172015-edd1b5e0bebf
 ## explicit
@@ -826,7 +825,6 @@ knative.dev/pkg/apis/duck/ducktypes
 knative.dev/pkg/apis/duck/v1
 knative.dev/pkg/apis/duck/v1beta1
 knative.dev/pkg/changeset
-knative.dev/pkg/client/injection/ducks/duck/v1/conditions
 knative.dev/pkg/client/injection/ducks/duck/v1/podspecable
 knative.dev/pkg/client/injection/kube/client
 knative.dev/pkg/client/injection/kube/informers/admissionregistration/v1/mutatingwebhookconfiguration

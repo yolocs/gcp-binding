@@ -1,0 +1,23 @@
+apiVersion: backing.google.com/v1alpha1
+kind: Binding
+metadata:
+  name: foo-binding
+  namespace: foo
+spec:
+  subject:
+    apiVersion: apps/v1
+    kind: Deployment
+    # name: foo-app
+    selector:
+      matchLabels:
+        app: foo-app
+  backings:
+  - apiVersion: sql.cnrm.cloud.google.com/v1beta1
+    kind: SQLDatabase
+    name: sqldatabase-foo
+  - apiVersion: sql.cnrm.cloud.google.com/v1beta1
+    kind: SQLUser
+    name: user-foo
+  - apiVersion: sql.cnrm.cloud.google.com/v1beta1
+    kind: SQLInstance
+    name: sqldatabase-dep

@@ -18,7 +18,7 @@ metadata:
   labels:
     role: webhook
     backing.google.com/release: devel
-  name: webhook
+  name: backing-webhook
   namespace: gcp-backing
 spec:
   ports:

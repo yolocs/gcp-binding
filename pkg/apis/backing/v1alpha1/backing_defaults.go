@@ -9,9 +9,9 @@ func (b *Binding) SetDefaults(ctx context.Context) {
 	if b.Spec.Subject.Namespace == "" {
 		b.Spec.Subject.Namespace = b.Namespace
 	}
-	for _, backing := range b.Spec.Backings {
-		if backing.Namespace == "" {
-			backing.Namespace = b.Namespace
+	for i := range b.Spec.Backings {
+		if b.Spec.Backings[i].Namespace == "" {
+			b.Spec.Backings[i].Namespace = b.Namespace
 		}
 	}
 }

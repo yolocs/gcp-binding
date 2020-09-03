@@ -7,12 +7,12 @@ import (
 )
 
 const (
-	BindingConditionReady                       = apis.ConditionReady
-	BindingConditionBackings apis.ConditionType = "BackingsResolved"
+	BindingConditionReady = apis.ConditionReady
+	// BindingConditionBackings apis.ConditionType = "BackingsResolved"
 )
 
 var bindingCondSet = apis.NewLivingConditionSet(
-	BindingConditionBackings,
+// BindingConditionBackings,
 )
 
 func (b *Binding) GetConditionSet() apis.ConditionSet {
@@ -35,13 +35,13 @@ func (bs *BindingStatus) SetObservedGeneration(gen int64) {
 	bs.ObservedGeneration = gen
 }
 
-func (bs *BindingStatus) MarkBackingsResolvedSuccess() {
-	bindingCondSet.Manage(bs).MarkTrue(BindingConditionBackings)
-}
+// func (bs *BindingStatus) MarkBackingsResolvedSuccess() {
+// 	bindingCondSet.Manage(bs).MarkTrue(BindingConditionBackings)
+// }
 
-func (bs *BindingStatus) MarkBackingsResolvedFailure(reason, messageFormat string, messageA ...interface{}) {
-	bindingCondSet.Manage(bs).MarkFalse(BindingConditionBackings, reason, messageFormat, messageA...)
-}
+// func (bs *BindingStatus) MarkBackingsResolvedFailure(reason, messageFormat string, messageA ...interface{}) {
+// 	bindingCondSet.Manage(bs).MarkFalse(BindingConditionBackings, reason, messageFormat, messageA...)
+// }
 
 func (bs *BindingStatus) MarkBindingAvailable() {
 	bindingCondSet.Manage(bs).MarkTrue(BindingConditionReady)

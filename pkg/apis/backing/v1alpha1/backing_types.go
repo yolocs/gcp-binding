@@ -2,9 +2,12 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"knative.dev/pkg/apis"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
 	duckv1beta1 "knative.dev/pkg/apis/duck/v1beta1"
+	"knative.dev/pkg/kmeta"
 )
 
 // +genclient
@@ -19,6 +22,15 @@ type Binding struct {
 	Spec   BindingSpec   `json:"spec"`
 	Status BindingStatus `json:"status"`
 }
+
+var (
+	_ runtime.Object     = (*Binding)(nil)
+	_ kmeta.OwnerRefable = (*Binding)(nil)
+	_ apis.Validatable   = (*Binding)(nil)
+	_ apis.Defaultable   = (*Binding)(nil)
+	_ apis.HasSpec       = (*Binding)(nil)
+	_ duckv1.KRShaped    = (*Binding)(nil)
+)
 
 // BindingSpec is the binding spec.
 type BindingSpec struct {

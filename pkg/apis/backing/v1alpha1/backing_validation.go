@@ -24,6 +24,7 @@ func (bs *BindingSpec) Validate(ctx context.Context) *apis.FieldError {
 	if len(bs.Backings) == 0 {
 		errs = errs.Also(apis.ErrInvalidValue(bs.Backings, "backings"))
 	}
+	// TODO: validate uniqueness of backings.
 	for i, backing := range bs.Backings {
 		if err := validateBacking(ctx, backing); err != nil {
 			errs = errs.Also(apis.ErrInvalidArrayValue(backing, "backings", i))

@@ -10,9 +10,11 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	pkgapisduck "knative.dev/pkg/apis/duck"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
-	"knative.dev/pkg/client/injection/ducks/duck/v1/conditions"
 	"knative.dev/pkg/controller"
+	"knative.dev/pkg/injection/clients/dynamicclient"
 	"knative.dev/pkg/tracker"
+
+	gcpbduck "github.com/yolocs/gcp-binding/pkg/apis/duck"
 )
 
 type BackingResolver struct {
@@ -26,7 +28,11 @@ func NewBackingResolver(ctx context.Context, callback func(types.NamespacedName)
 	ret.tracker = tracker.New(callback, controller.GetTrackerLease(ctx))
 	ret.informerFactory = &pkgapisduck.CachedInformerFactory{
 		Delegate: &pkgapisduck.EnqueueInformerFactory{
-			Delegate:     conditions.Get(ctx),
+			Delegate: &gcpbduck.UntypedInformerFactory{
+				Client:       dynamicclient.Get(ctx),
+				ResyncPeriod: controller.GetResyncPeriod(ctx),
+				StopChannel:  ctx.Done(),
+			},
 			EventHandler: controller.HandleAll(ret.tracker.OnChanged),
 		},
 	}
@@ -34,7 +40,7 @@ func NewBackingResolver(ctx context.Context, callback func(types.NamespacedName)
 	return ret
 }
 
-func (r *BackingResolver) ResolveBackingFromRef(kref duckv1.KReference, parent interface{}) (*unstructured.Unstructured, error) {
+func (r *BackingResolver) ResolveBackingFromRef(ctx context.Context, kref duckv1.KReference, parent interface{}) (*unstructured.Unstructured, error) {
 	ref := corev1.ObjectReference{Name: kref.Name, Namespace: kref.Namespace, APIVersion: kref.APIVersion, Kind: kref.Kind}
 	if err := r.tracker.TrackReference(tracker.Reference{
 		APIVersion: ref.APIVersion,
@@ -44,10 +50,10 @@ func (r *BackingResolver) ResolveBackingFromRef(kref duckv1.KReference, parent i
 	}, parent); err != nil {
 		return nil, fmt.Errorf("failed to track backing ref %+v: %w", ref, err)
 	}
-	return r.getBacking(ref)
+	return r.getBacking(ctx, ref)
 }
 
-func (r *BackingResolver) getBacking(ref corev1.ObjectReference) (*unstructured.Unstructured, error) {
+func (r *BackingResolver) getBacking(ctx context.Context, ref corev1.ObjectReference) (*unstructured.Unstructured, error) {
 	gvr, _ := meta.UnsafeGuessKindToResource(ref.GroupVersionKind())
 	_, lister, err := r.informerFactory.Get(gvr)
 	if err != nil {
@@ -59,5 +65,10 @@ func (r *BackingResolver) getBacking(ref corev1.ObjectReference) (*unstructured.
 		return nil, fmt.Errorf("failed to get ref %+v: %w", ref, err)
 	}
 
-	return obj.(*unstructured.Unstructured), nil
+	u, ok := obj.(*unstructured.Unstructured)
+	if !ok {
+		return nil, fmt.Errorf("%+v (%T) is not a Unstructured", ref, ref)
+	}
+
+	return u, nil
 }

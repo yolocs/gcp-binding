@@ -65,7 +65,9 @@ spec:
         - name: METRICS_DOMAIN
           value: knative.dev/samples
         - name: WEBHOOK_NAME
-          value: webhook
+          value: backing-webhook
+        - name: WEBHOOK_PORT
+          value: "8443"
 
         readinessProbe: &probe
           periodSeconds: 1

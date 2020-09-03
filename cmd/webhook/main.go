@@ -23,7 +23,6 @@ import (
 	"knative.dev/pkg/webhook/resourcesemantics/defaulting"
 	"knative.dev/pkg/webhook/resourcesemantics/validation"
 
-	defaultconfig "knative.dev/eventing/pkg/apis/config"
 	"knative.dev/eventing/pkg/logconfig"
 
 	"github.com/yolocs/gcp-binding/pkg/apis/backing/v1alpha1"
@@ -38,12 +37,8 @@ var callbacks = map[schema.GroupVersionKind]validation.Callback{}
 
 func NewDefaultingAdmissionController(ctx context.Context, cmw configmap.Watcher) *controller.Impl {
 	// Decorate contexts with the current state of the config.
-	store := defaultconfig.NewStore(logging.FromContext(ctx).Named("config-store"))
-	store.WatchConfigs(cmw)
-
-	// Decorate contexts with the current state of the config.
 	ctxFunc := func(ctx context.Context) context.Context {
-		return store.ToContext(ctx)
+		return ctx
 	}
 
 	return defaulting.NewAdmissionController(ctx,
@@ -67,12 +62,8 @@ func NewDefaultingAdmissionController(ctx context.Context, cmw configmap.Watcher
 
 func NewValidationAdmissionController(ctx context.Context, cmw configmap.Watcher) *controller.Impl {
 	// Decorate contexts with the current state of the config.
-	store := defaultconfig.NewStore(logging.FromContext(ctx).Named("config-store"))
-	store.WatchConfigs(cmw)
-
-	// Decorate contexts with the current state of the config.
 	ctxFunc := func(ctx context.Context) context.Context {
-		return store.ToContext(ctx)
+		return ctx
 	}
 
 	return validation.NewAdmissionController(ctx,
@@ -148,7 +139,7 @@ func main() {
 		ServiceName: logconfig.WebhookName(),
 		Port:        webhook.PortFromEnv(8443),
 		// SecretName must match the name of the Secret created in the configuration.
-		SecretName: "eventing-webhook-certs",
+		SecretName: "backing-webhook-certs",
 	})
 
 	sharedmain.WebhookMainWithContext(ctx, logconfig.WebhookName(),

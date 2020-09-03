@@ -112,7 +112,7 @@ func WithContextFactory(ctx context.Context, handler func(types.NamespacedName))
 		bb := b.(*v1alpha1.Binding)
 		backings := make([]*unstructured.Unstructured, 0)
 		for _, ref := range bb.Spec.Backings {
-			backing, err := r.ResolveBackingFromRef(ref, bb)
+			backing, err := r.ResolveBackingFromRef(ctx, ref, bb)
 			if err != nil {
 				return nil, err
 			}

@@ -15,7 +15,7 @@
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: MutatingWebhookConfiguration
 metadata:
-  name: defaulting.webhook.backing.google.com
+  name: webhook.backing.google.com
   labels:
     backing.google.com/release: devel
 webhooks:
@@ -23,10 +23,10 @@ webhooks:
   - v1beta1
   clientConfig:
     service:
-      name: webhook
+      name: backing-webhook
       namespace: gcp-backing
   failurePolicy: Fail
-  name: defaulting.webhook.backing.google.com
+  name: webhook.backing.google.com
 ---
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
@@ -39,7 +39,7 @@ webhooks:
   - v1beta1
   clientConfig:
     service:
-      name: webhook
+      name: backing-webhook
       namespace: gcp-backing
   failurePolicy: Fail
   name: validation.webhook.backing.google.com
@@ -55,7 +55,7 @@ webhooks:
   - v1beta1
   clientConfig:
     service:
-      name: webhook
+      name: backing-webhook
       namespace: gcp-backing
   failurePolicy: Fail
   name: config.webhook.backing.google.com
@@ -64,10 +64,26 @@ webhooks:
     - key: backing.google.com/release
       operator: Exists
 ---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: bindings.webhook.backing.google.com
+  labels:
+    eventing.knative.dev/release: devel
+webhooks:
+- admissionReviewVersions: ["v1", "v1beta1"]
+  clientConfig:
+    service:
+      name: backing-webhook
+      namespace: gcp-backing
+  failurePolicy: Fail
+  sideEffects: None
+  name: bindings.webhook.backing.google.com
+---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: webhook-certs
+  name: backing-webhook-certs
   namespace: gcp-backing
   labels:
     backing.google.com/release: devel

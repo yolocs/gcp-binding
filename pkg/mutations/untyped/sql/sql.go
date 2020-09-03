@@ -10,7 +10,6 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
-	"knative.dev/pkg/ptr"
 )
 
 func init() {
@@ -34,7 +33,7 @@ func (m forInstance) Do(ctx context.Context, ps *duckv1.WithPod, u *unstructured
 			"/cloud_sql_proxy",
 			fmt.Sprintf("-instances=%s=tcp:3306", conn),
 		},
-		SecurityContext: &corev1.SecurityContext{RunAsNonRoot: ptr.Bool(true)},
+		// SecurityContext: &corev1.SecurityContext{RunAsNonRoot: ptr.Bool(true)},
 	})
 
 	ps.Spec.Template.Spec.Containers = spec.Containers

@@ -14,5 +14,3 @@ type Mutation interface {
 	Do(context.Context, *duckv1.WithPod, *unstructured.Unstructured) error
 	Undo(context.Context, *duckv1.WithPod, *unstructured.Unstructured) error
 }
-
-type MutateFunc func(context.Context, *duckv1.WithPod, *unstructured.Unstructured) error

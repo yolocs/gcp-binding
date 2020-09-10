@@ -10,6 +10,7 @@ import (
 	untypedmutations "github.com/yolocs/gcp-binding/pkg/mutations/untyped"
 
 	_ "github.com/yolocs/gcp-binding/pkg/mutations/untyped/sql"
+	_ "github.com/yolocs/gcp-binding/pkg/mutations/untyped/storage"
 )
 
 func (b *Binding) Do(ctx context.Context, ps *duckv1.WithPod) {

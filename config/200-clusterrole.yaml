@@ -41,6 +41,6 @@ rules:
     verbs: ["get", "list", "create", "update", "delete", "deletecollection", "patch", "watch"]
   
   # Permissions on KCC resources.
-  - apiGroups: ["sql.cnrm.cloud.google.com", "iam.cnrm.cloud.google.com"]
+  - apiGroups: ["sql.cnrm.cloud.google.com", "iam.cnrm.cloud.google.com", "storage.cnrm.cloud.google.com", "redis.cnrm.cloud.google.com"]
     resources: ["*"]
     verbs: ["get", "list", "create", "update", "delete", "patch", "watch"]

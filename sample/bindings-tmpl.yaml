@@ -13,28 +13,28 @@ spec:
   backings:
   - apiVersion: sql.cnrm.cloud.google.com/v1beta1
     kind: SQLDatabase
-    name: sqldatabase-foo
+    name: {DB_NAME_1}
   - apiVersion: sql.cnrm.cloud.google.com/v1beta1
     kind: SQLUser
-    name: user-foo
+    name: {DB_USER_1}
   - apiVersion: sql.cnrm.cloud.google.com/v1beta1
     kind: SQLInstance
-    name: sqldatabase-dep
+    name: {INSTANCE_NAME_1}
   - apiVersion: storage.cnrm.cloud.google.com/v1beta1
     kind: StorageBucket
-    name: backing-foo-bucket
+    name: {BUCKET_NAME_1}
   # - apiVersion: sql.cnrm.cloud.google.com/v1beta1
   #   kind: SQLDatabase
-  #   name: sqldatabase-2
+  #   name: {DB_NAME_2}
   # - apiVersion: sql.cnrm.cloud.google.com/v1beta1
   #   kind: SQLUser
-  #   name: ins2-user
+  #   name: {DB_USER_2}
   # - apiVersion: sql.cnrm.cloud.google.com/v1beta1
   #   kind: SQLInstance
-  #   name: sqldatabase-ins-2
+  #   name: {INSTANCE_NAME_2}
   # - apiVersion: storage.cnrm.cloud.google.com/v1beta1
   #   kind: StorageBucket
-  #   name: backing-foo-bucket-2
+  #   name: {BUCKET_NAME_2}
 ---
 apiVersion: backing.google.com/v1alpha1
 kind: Binding
@@ -51,13 +51,13 @@ spec:
   backings:
   - apiVersion: sql.cnrm.cloud.google.com/v1beta1
     kind: SQLDatabase
-    name: sqldatabase-foo
+    name: {DB_NAME_1}
   - apiVersion: sql.cnrm.cloud.google.com/v1beta1
     kind: SQLUser
-    name: user-foo
+    name: {DB_USER_1}
   - apiVersion: sql.cnrm.cloud.google.com/v1beta1
     kind: SQLInstance
-    name: sqldatabase-dep
+    name: {INSTANCE_NAME_1}
   - apiVersion: storage.cnrm.cloud.google.com
     kind: StorageBucket
-    name: backing-foo-bucket
+    name: {BUCKET_NAME_1}

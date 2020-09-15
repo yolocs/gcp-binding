@@ -71,7 +71,7 @@ Update pets images to the bucket with `{pet_name}.jpg` as the object name. E.g. 
 
 ## Create bindings
 
-Update [bindings-tmpl.yaml](..sample/bindings-tmpl.yaml) with proper names and `kubectl apply -f`.
+Update [bindings-tmpl.yaml](../sample/bindings-tmpl.yaml) with proper names and `kubectl apply -f`.
 
 ## Create sample app
 
